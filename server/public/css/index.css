@@ -8,6 +8,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 100%;
 }
 
@@ -17,4 +18,30 @@ body {
   border-radius: 5px;
   width: 1000px;
   height: 600px;
+}
+
+.chips-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  width: 985px;
+  height: 40px;
+  padding: 10px;
+  background-color: #383838;
+  border: 3px solid #2d2e2e;
+  border-radius: 3px;
+}
+
+.chip-create {
+  background-color: #4a4a4a;
+}
+
+.chips-item {
+  flex: 0 0 auto;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
 }
