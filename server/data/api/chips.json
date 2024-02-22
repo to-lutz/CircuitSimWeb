@@ -6,7 +6,7 @@
         "outputs": 1,
         "type": "NOT",
         "enabledByDefault": true,
-        "bgColor": null
+        "bgColor": "#fc422d"
     },
     {
         "id": 1,
@@ -15,6 +15,6 @@
         "outputs": 1,
         "type": "AND",
         "enabledByDefault": true,
-        "bgColor": null
+        "bgColor": "#2d79fc"
     }
 ]
