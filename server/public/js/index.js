@@ -38,7 +38,7 @@ function toggleInput(element) {
 }
 
 document.querySelector(".board").addEventListener("click", (e) => {
-    if (e.offsetX < 10) { // Left Side
+    if (e.offsetX < 10 && !simMode) { // Left Side
         let div = document.createElement("div");
         div.classList.add("board-input");
         div.id = document.querySelectorAll(".board-input").length;
@@ -47,7 +47,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.position = "absolute";
         div.addEventListener("click", (e) => toggleInput(e.target));
         document.querySelector(".wrapper").appendChild(div);
-    } else if (e.offsetX - e.target.getBoundingClientRect().width > -15) { // Right Side
+    } else if (e.offsetX - e.target.getBoundingClientRect().width > -15 && !simMode) { // Right Side
         let div = document.createElement("div");
         div.classList.add("board-output");
         div.id = document.querySelectorAll(".board-output").length;
