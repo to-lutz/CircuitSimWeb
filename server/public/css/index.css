@@ -48,7 +48,7 @@ body {
   cursor: pointer;
 }
 
-.board-input {
+.board-input, .board-output {
   position: absolute;
   width: 30px;
   height: 30px;

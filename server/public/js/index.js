@@ -33,7 +33,7 @@ function toggleInput(element) {
 }
 
 document.querySelector(".board").addEventListener("click", (e) => {
-    if (e.offsetX < 10) {
+    if (e.offsetX < 10) { // Left Side
         let div = document.createElement("div");
         div.classList.add("board-input");
         div.id = document.querySelectorAll(".board-input").length;
@@ -41,6 +41,14 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
         div.addEventListener("click", (e) => toggleInput(e.target));
+        document.querySelector(".wrapper").appendChild(div);
+    } else if (e.offsetX - e.target.getBoundingClientRect().width > -15) { // Right Side
+        let div = document.createElement("div");
+        div.classList.add("board-output");
+        div.id = document.querySelectorAll(".board-output").length;
+        div.style.left = (e.target.getBoundingClientRect().width + 20) + "px";
+        div.style.top = e.clientY + "px";
+        div.style.position = "absolute";
         document.querySelector(".wrapper").appendChild(div);
     }
 });
