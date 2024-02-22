@@ -23,3 +23,15 @@ function loadChipsToDom() {
 }
 
 loadChips();
+
+document.querySelector(".board").addEventListener("click", (e) => {
+    if (e.offsetX < 10) {
+        let div = document.createElement("div");
+        div.classList.add("board-input");
+        div.id = document.querySelectorAll(".board-input").length;
+        div.style.left = (e.target.getBoundingClientRect().left - 12.5) + "px";
+        div.style.top = e.clientY + "px";
+        div.style.position = "absolute";
+        document.querySelector(".board").appendChild(div);
+    }
+});
