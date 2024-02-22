@@ -1,4 +1,5 @@
 let simMode = false;
+let wireMode = false;
 // Fetch basic chips from API
 let chips;
 async function loadChips() {
@@ -68,5 +69,17 @@ document.querySelector(".simulation-mode").addEventListener("click", (e) => {
         e.target.classList.remove("fa-stop");
         e.target.classList.add("fa-play");
         simMode = false;
+    }
+});
+
+document.querySelector(".wire-mode").addEventListener("click", (e) => {
+    if (e.target.classList.contains("fa-grip-lines")) {
+        e.target.classList.remove("fa-grip-lines");
+        e.target.classList.add("fa-x");
+        wireMode = true;
+    } else {
+        e.target.classList.remove("fa-x");
+        e.target.classList.add("fa-grip-lines");
+        wireMode = false;
     }
 });
