@@ -20,6 +20,35 @@ body {
   height: 500px;
 }
 
+.header-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 985px;
+  height: 40px;
+  padding: 10px;
+  background-color: #383838;
+  border: 3px solid #2d2e2e;
+  border-radius: 3px;
+}
+
+.module-name {
+  border: none;
+  background: none;
+  width: 400px;
+  color: #fff;
+  font-size: 24px;
+}
+
+.module-name:focus {
+  outline: none;
+  border-bottom: 3px solid #4a4a4a;
+}
+
+.simulation-mode {
+  color: #fff;
+}
+
 .chips-wrapper {
   display: flex;
   flex-wrap: nowrap;
