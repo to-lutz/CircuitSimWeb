@@ -24,6 +24,14 @@ function loadChipsToDom() {
 
 loadChips();
 
+function toggleInput(element) {
+    if (element.classList.contains("inputON")) {
+        element.classList.remove("inputON");
+    } else {
+        element.classList.add("inputON");
+    }
+}
+
 document.querySelector(".board").addEventListener("click", (e) => {
     if (e.offsetX < 10) {
         let div = document.createElement("div");
@@ -32,6 +40,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.left = (e.target.getBoundingClientRect().left - 12.5) + "px";
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
-        document.querySelector(".board").appendChild(div);
+        div.addEventListener("click", (e) => toggleInput(e.target));
+        document.querySelector(".wrapper").appendChild(div);
     }
 });

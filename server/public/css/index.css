@@ -56,3 +56,7 @@ body {
   border-radius: 50%;
   z-index: 100;
 }
+
+.inputON {
+  background-color: #c91c10;
+}
