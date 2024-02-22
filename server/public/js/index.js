@@ -1,3 +1,4 @@
+let simMode = false;
 // Fetch basic chips from API
 let chips;
 async function loadChips() {
@@ -25,10 +26,14 @@ function loadChipsToDom() {
 loadChips();
 
 function toggleInput(element) {
-    if (element.classList.contains("inputON")) {
-        element.classList.remove("inputON");
+    if (!simMode) {
+        element.remove();
     } else {
-        element.classList.add("inputON");
+        if (element.classList.contains("inputON")) {
+            element.classList.remove("inputON");
+        } else {
+            element.classList.add("inputON");
+        }
     }
 }
 
@@ -57,8 +62,10 @@ document.querySelector(".simulation-mode").addEventListener("click", (e) => {
     if (e.target.classList.contains("fa-play")) {
         e.target.classList.remove("fa-play");
         e.target.classList.add("fa-stop");
+        simMode = true;
     } else {
         e.target.classList.remove("fa-stop");
         e.target.classList.add("fa-play");
+        simMode = false;
     }
 });
