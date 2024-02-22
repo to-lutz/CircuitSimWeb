@@ -54,6 +54,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.left = (e.target.getBoundingClientRect().width + 20) + "px";
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
+        div.addEventListener("click", (e) => {if(!simMode) e.target.remove()});
         document.querySelector(".wrapper").appendChild(div);
     }
 });
