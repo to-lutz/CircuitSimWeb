@@ -4,13 +4,15 @@
         "name": "NOT",
         "inputs": 1,
         "outputs": 1,
-        "type": "NOT"
+        "type": "NOT",
+        "enabledByDefault": true
     },
     {
         "id": 1,
         "name": "AND",
         "inputs": 1,
         "outputs": 1,
-        "type": "AND"
+        "type": "AND",
+        "enabledByDefault": true
     }
 ]
