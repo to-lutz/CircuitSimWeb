@@ -52,3 +52,13 @@ document.querySelector(".board").addEventListener("click", (e) => {
         document.querySelector(".wrapper").appendChild(div);
     }
 });
+
+document.querySelector(".simulation-mode").addEventListener("click", (e) => {
+    if (e.target.classList.contains("fa-play")) {
+        e.target.classList.remove("fa-play");
+        e.target.classList.add("fa-stop");
+    } else {
+        e.target.classList.remove("fa-stop");
+        e.target.classList.add("fa-play");
+    }
+});
