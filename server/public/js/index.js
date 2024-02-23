@@ -94,11 +94,26 @@ function dropChip(e) {
     let id = e.dataTransfer.getData("ID");
     let inputs = e.dataTransfer.getData("Inputs");
     let outputs = e.dataTransfer.getData("Outputs");
+
+    let height = (10 + Math.max(inputs, outputs) * 30 + 10);
+
+    let input = document.createElement("div");
+    input.classList.add("chip-input");
+    input.style.left = -12.5 + "px";
+
     let elem = document.querySelector("#" + id).cloneNode(true);
+
     elem.id = id + +new Date();
     elem.style.position = "absolute";
     elem.style.top = e.clientY + "px";
     elem.style.left = e.clientX + "px";
-    elem.style.height = (10 + Math.max(inputs, outputs) * 30) + "px";
+    elem.style.height = height + "px";
+
+    for (let i = 0; i < inputs; i++) {
+        let ielem = input.cloneNode(true);
+        ielem.style.top = (25 + 30*i) + "px";
+        elem.appendChild(ielem);
+    }
+
     document.querySelector(".board").appendChild(elem);
 }

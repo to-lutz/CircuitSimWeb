@@ -77,13 +77,18 @@ body {
   cursor: pointer;
 }
 
-.board-input, .board-output {
+.board-input, .board-output, .chip-input, .chip-output {
   position: absolute;
   width: 30px;
   height: 30px;
   background-color: #000;
   border-radius: 50%;
   z-index: 100;
+}
+
+.chip-input, .chip-input {
+  height: 20px;
+  width: 20px;
 }
 
 .inputON {
