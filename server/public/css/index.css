@@ -86,7 +86,7 @@ body {
   z-index: 100;
 }
 
-.chip-input, .chip-input {
+.chip-input, .chip-output {
   height: 20px;
   width: 20px;
 }
