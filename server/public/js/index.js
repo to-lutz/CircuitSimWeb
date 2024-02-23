@@ -5,6 +5,12 @@ let wireStartElem = null;
 let wireCount = 0;
 let curInputID = 0;
 let curOutputID = 0;
+
+const enabledColor = "#c91c10";
+const enabledSVG = "%23c91c10";
+const disabledColor = "#000";
+const disabledSVG = "black";
+
 // Fetch basic chips from API
 let chips;
 async function loadChips() {
@@ -41,9 +47,12 @@ function toggleInput(element) {
     } else {
         if (element.classList.contains("inputON")) {
             element.classList.remove("inputON");
+            element.setAttribute("enabled", false);
         } else {
             element.classList.add("inputON");
+            element.setAttribute("enabled", true)
         }
+        updateSimulation();
     }
 }
 
@@ -80,6 +89,7 @@ function connectWire(elem){
     if (wireMode && wireStartElem != elem) {
         let wire = document.querySelector("#wire");
         wire.id = "set_wire_" + wireCount;
+        wire.classList.add("set_wire");
         wire.setAttribute("fromID", wireStartElem.id);
         wire.setAttribute("toID", elem.id);
         wireCount++;
@@ -202,5 +212,20 @@ function dropChip(e) {
     document.querySelector(".board").appendChild(elem);
     if (e.dataTransfer.getData("MoveChip")) {
         document.querySelector("#" + id).remove();
+    }
+}
+
+function updateSimulation() {
+    let wires = document.querySelectorAll(".set_wire");
+    for (let wire of wires) {
+        let from = document.querySelector("#" + wire.getAttribute("fromID"));
+        let to = document.querySelector("#" + wire.getAttribute("toID"));
+        if (from.getAttribute("enabled") == "true") {
+            wire.style.stroke = enabledColor;
+            to.style.backgroundColor = enabledColor;
+        } else {
+            wire.style.stroke = disabledColor;
+            to.style.backgroundColor = disabledColor;
+        }
     }
 }
