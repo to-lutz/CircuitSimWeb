@@ -50,7 +50,8 @@ document.querySelector(".board").addEventListener("click", (e) => {
         let div = document.createElement("div");
         div.classList.add("board-output");
         div.id = document.querySelectorAll(".board-output").length;
-        div.style.left = (e.target.getBoundingClientRect().width + 20) + "px";
+        console.log(e.target.getBoundingClientRect().width);
+        div.style.left = (e.target.getBoundingClientRect().right - 15) + "px";
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
         div.addEventListener("click", (e) => {if(!simMode) e.target.remove()});
