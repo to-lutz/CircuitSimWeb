@@ -1,6 +1,8 @@
 let simMode = false;
 let wireMode = false;
 let settingWire = false;
+let wireStartElem = null;
+let wireCount = 0;
 // Fetch basic chips from API
 let chips;
 async function loadChips() {
@@ -40,7 +42,6 @@ function toggleInput(element) {
                 if (settingWire) {
                     let wire = document.querySelector("#wire");
                     wire.setAttribute("points", wire.getAttribute("points") + " " + e.clientX + "," + e.clientY);
-                    wirePoint++;
                 }
             });
             document.querySelector(".board").appendChild(svg);
@@ -51,6 +52,7 @@ function toggleInput(element) {
             line.setAttribute("fill", "none");
             svg.appendChild(line);
             settingWire = true;
+            wireStartElem = element;
         }
     } else {
         if (element.classList.contains("inputON")) {
@@ -58,6 +60,17 @@ function toggleInput(element) {
         } else {
             element.classList.add("inputON");
         }
+    }
+}
+
+function connectWire(elem){
+    if (wireMode && wireStartElem != elem) {
+        let wire = document.querySelector("#wire");
+        wire.id = "set_wire_" + wireCount;
+        wireCount++;
+        wire.setAttribute("points", wire.getAttribute("points") + " " + elem.getBoundingClientRect().left + "," + (elem.getBoundingClientRect().width / 2, elem.getBoundingClientRect().top + (elem.getBoundingClientRect().height / 2)));
+        wireMode = false;
+        wireStartElem = null;
     }
 }
 
@@ -70,6 +83,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
         div.addEventListener("click", (e) => toggleInput(e.target));
+        div.addEventListener("click", (e) => connectWire(e.target));
         document.querySelector(".wrapper").appendChild(div);
     } else if (e.offsetX - e.target.getBoundingClientRect().width > -15 && !simMode && !wireMode) { // Right Side
         let div = document.createElement("div");
@@ -79,6 +93,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
         div.addEventListener("click", (e) => {if(!simMode && !wireMode) e.target.remove()});
+        div.addEventListener("click", (e) => connectWire(e.target));
         document.querySelector(".wrapper").appendChild(div);
     }
 });
