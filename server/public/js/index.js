@@ -43,7 +43,7 @@ function toggleInput(element) {
                     wirePoint++;
                 }
             });
-            document.body.appendChild(svg);
+            document.querySelector(".board").appendChild(svg);
             let line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
             line.setAttribute("id", "wire");
             line.setAttribute("points", element.getBoundingClientRect().left + "," + (element.getBoundingClientRect().width / 2, element.getBoundingClientRect().top + (element.getBoundingClientRect().height / 2)));
@@ -62,7 +62,7 @@ function toggleInput(element) {
 }
 
 document.querySelector(".board").addEventListener("click", (e) => {
-    if (e.offsetX < 10 && !simMode) { // Left Side
+    if (e.offsetX < 10 && !simMode && !wireMode) { // Left Side
         let div = document.createElement("div");
         div.classList.add("board-input");
         div.id = document.querySelectorAll(".board-input").length;
@@ -71,14 +71,14 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.style.position = "absolute";
         div.addEventListener("click", (e) => toggleInput(e.target));
         document.querySelector(".wrapper").appendChild(div);
-    } else if (e.offsetX - e.target.getBoundingClientRect().width > -15 && !simMode) { // Right Side
+    } else if (e.offsetX - e.target.getBoundingClientRect().width > -15 && !simMode && !wireMode) { // Right Side
         let div = document.createElement("div");
         div.classList.add("board-output");
         div.id = document.querySelectorAll(".board-output").length;
         div.style.left = (e.target.getBoundingClientRect().right - 15) + "px";
         div.style.top = e.clientY + "px";
         div.style.position = "absolute";
-        div.addEventListener("click", (e) => {if(!simMode) e.target.remove()});
+        div.addEventListener("click", (e) => {if(!simMode && !wireMode) e.target.remove()});
         document.querySelector(".wrapper").appendChild(div);
     }
 });
