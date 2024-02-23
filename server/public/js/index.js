@@ -46,18 +46,26 @@ function toggleInput(element) {
 }
 
 function connectWire(elem){
+    let board = document.querySelector(".board");
     if (wireStartElem == null && wireMode) {
         let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.addEventListener("click", (e) => {
             if (settingWire) {
                 let wire = document.querySelector("#wire");
-                wire.setAttribute("points", wire.getAttribute("points") + " " + e.clientX + "," + e.clientY);
+                let xVal = e.clientX - board.getBoundingClientRect().left;
+                let yVal = e.clientY - board.getBoundingClientRect().top;
+                wire.setAttribute("points", wire.getAttribute("points") + " " + xVal + "," + yVal);
             }
         });
-        document.querySelector(".board").appendChild(svg);
+        board.appendChild(svg);
         let line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
         line.setAttribute("id", "wire");
-        line.setAttribute("points", elem.getBoundingClientRect().left + "," + (elem.getBoundingClientRect().width / 2, elem.getBoundingClientRect().top + (elem.getBoundingClientRect().height / 2)));
+
+        let boundingBox = elem.getBoundingClientRect();
+        let xVal = (boundingBox.left + boundingBox.width / 2) - board.getBoundingClientRect().left;
+        let yVal = (boundingBox.top + boundingBox.height / 2) - board.getBoundingClientRect().top;
+
+        line.setAttribute("points", xVal + "," + yVal);
         line.setAttribute("stroke", "black");
         line.setAttribute("fill", "none");
         svg.appendChild(line);
@@ -69,7 +77,11 @@ function connectWire(elem){
         let wire = document.querySelector("#wire");
         wire.id = "set_wire_" + wireCount;
         wireCount++;
-        wire.setAttribute("points", wire.getAttribute("points") + " " + elem.getBoundingClientRect().left + "," + (elem.getBoundingClientRect().width / 2, elem.getBoundingClientRect().top + (elem.getBoundingClientRect().height / 2)));
+        let boundingBox = elem.getBoundingClientRect();
+        let xVal = (boundingBox.left + boundingBox.width / 2) - board.getBoundingClientRect().left;
+        let yVal = (boundingBox.top + boundingBox.height / 2) - board.getBoundingClientRect().top;
+
+        wire.setAttribute("points", wire.getAttribute("points") + " " + xVal + "," + yVal);
         wireStartElem = null;
         settingWire = false;
     }
