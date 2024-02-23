@@ -95,7 +95,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.classList.add("board-input");
         div.id = document.querySelectorAll(".board-input").length;
         div.style.left = (e.target.getBoundingClientRect().left - 12.5) + "px";
-        div.style.top = e.clientY + "px";
+        div.style.top = (e.clientY - 15) + "px";
         div.style.position = "absolute";
         div.addEventListener("click", (e) => toggleInput(e.target));
         div.addEventListener("click", (e) => connectWire(e.target));
@@ -105,7 +105,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         div.classList.add("board-output");
         div.id = document.querySelectorAll(".board-output").length;
         div.style.left = (e.target.getBoundingClientRect().right - 15) + "px";
-        div.style.top = e.clientY + "px";
+        div.style.top = (e.clientY - 15) + "px";
         div.style.position = "absolute";
         div.addEventListener("click", (e) => {if(!simMode && !wireMode) e.target.remove()});
         div.addEventListener("click", (e) => connectWire(e.target));
