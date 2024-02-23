@@ -16,5 +16,14 @@
         "type": "AND",
         "enabledByDefault": true,
         "bgColor": "#2d79fc"
+    },
+    {
+        "id": 2,
+        "name": "TEST",
+        "inputs": 10,
+        "outputs": 1,
+        "type": "TEST",
+        "enabledByDefault": true,
+        "bgColor": "#c910c0"
     }
 ]
