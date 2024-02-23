@@ -80,6 +80,8 @@ function connectWire(elem){
     if (wireMode && wireStartElem != elem) {
         let wire = document.querySelector("#wire");
         wire.id = "set_wire_" + wireCount;
+        wire.setAttribute("fromID", wireStartElem.id);
+        wire.setAttribute("toID", elem.id);
         wireCount++;
         let boundingBox = elem.getBoundingClientRect();
         let xVal = (boundingBox.left + boundingBox.width / 2) - board.getBoundingClientRect().left;
