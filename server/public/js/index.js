@@ -17,7 +17,11 @@ function loadChipsToDom() {
         div.innerHTML = chip['name'];
         div.style.backgroundColor = chip['bgColor'];
         div.draggable = "true";
-        div.ondragstart = (e) => e.dataTransfer.setData("ID", e.target.id);
+        div.ondragstart = (e) => {
+            e.dataTransfer.setData("ID", e.target.id);
+            e.dataTransfer.setData("Inputs", chip['inputs']);
+            e.dataTransfer.setData("Outputs", chip['outputs']);
+        }
         document.querySelector(".chips-wrapper").appendChild(div);
     }
 }
@@ -88,10 +92,13 @@ function allowDropChip(e) {
 
 function dropChip(e) {
     let id = e.dataTransfer.getData("ID");
+    let inputs = e.dataTransfer.getData("Inputs");
+    let outputs = e.dataTransfer.getData("Outputs");
     let elem = document.querySelector("#" + id).cloneNode(true);
     elem.id = id + +new Date();
     elem.style.position = "absolute";
     elem.style.top = e.clientY + "px";
     elem.style.left = e.clientX + "px";
+    elem.style.height = (10 + Math.max(inputs, outputs) * 30) + "px";
     document.querySelector(".board").appendChild(elem);
 }
