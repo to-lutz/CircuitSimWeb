@@ -36,24 +36,6 @@ loadChips();
 function toggleInput(element) {
     if (!simMode) {
         if (!wireMode) element.remove();
-        else {
-            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.addEventListener("click", (e) => {
-                if (settingWire) {
-                    let wire = document.querySelector("#wire");
-                    wire.setAttribute("points", wire.getAttribute("points") + " " + e.clientX + "," + e.clientY);
-                }
-            });
-            document.querySelector(".board").appendChild(svg);
-            let line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-            line.setAttribute("id", "wire");
-            line.setAttribute("points", element.getBoundingClientRect().left + "," + (element.getBoundingClientRect().width / 2, element.getBoundingClientRect().top + (element.getBoundingClientRect().height / 2)));
-            line.setAttribute("stroke", "black");
-            line.setAttribute("fill", "none");
-            svg.appendChild(line);
-            settingWire = true;
-            wireStartElem = element;
-        }
     } else {
         if (element.classList.contains("inputON")) {
             element.classList.remove("inputON");
@@ -64,13 +46,32 @@ function toggleInput(element) {
 }
 
 function connectWire(elem){
+    if (wireStartElem == null && wireMode) {
+        let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.addEventListener("click", (e) => {
+            if (settingWire) {
+                let wire = document.querySelector("#wire");
+                wire.setAttribute("points", wire.getAttribute("points") + " " + e.clientX + "," + e.clientY);
+            }
+        });
+        document.querySelector(".board").appendChild(svg);
+        let line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+        line.setAttribute("id", "wire");
+        line.setAttribute("points", elem.getBoundingClientRect().left + "," + (elem.getBoundingClientRect().width / 2, elem.getBoundingClientRect().top + (elem.getBoundingClientRect().height / 2)));
+        line.setAttribute("stroke", "black");
+        line.setAttribute("fill", "none");
+        svg.appendChild(line);
+        settingWire = true;
+        wireStartElem = elem;
+    }
+
     if (wireMode && wireStartElem != elem) {
         let wire = document.querySelector("#wire");
         wire.id = "set_wire_" + wireCount;
         wireCount++;
         wire.setAttribute("points", wire.getAttribute("points") + " " + elem.getBoundingClientRect().left + "," + (elem.getBoundingClientRect().width / 2, elem.getBoundingClientRect().top + (elem.getBoundingClientRect().height / 2)));
-        wireMode = false;
         wireStartElem = null;
+        settingWire = false;
     }
 }
 
@@ -170,6 +171,8 @@ function dropChip(e) {
         e.dataTransfer.setData("Outputs", outputs);
         e.dataTransfer.setData("MoveChip", true);
     }
+
+    elem.addEventListener("click", (e) => connectWire(e.target));
 
     document.querySelector(".board").appendChild(elem);
     if (e.dataTransfer.getData("MoveChip")) {
