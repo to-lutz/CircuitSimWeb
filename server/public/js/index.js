@@ -6,6 +6,8 @@ let wireCount = 0;
 let curInputID = 0;
 let curOutputID = 0;
 
+let maxItrSim = 10; // Iteration cap for the sim
+
 const enabledColor = "#c91c10";
 const enabledSVG = "%23c91c10";
 const disabledColor = "#000";
@@ -94,6 +96,9 @@ function connectWire(elem){
         wire.setAttribute("fromID", wireStartElem.id);
         wire.setAttribute("toID", elem.id);
         wireCount++;
+
+        wireStartElem.setAttribute("wire", wire.id);
+
         let boundingBox = elem.getBoundingClientRect();
         let xVal = (boundingBox.left + boundingBox.width / 2) - board.getBoundingClientRect().left;
         let yVal = (boundingBox.top + boundingBox.height / 2) - board.getBoundingClientRect().top;
@@ -221,68 +226,26 @@ function dropChip(e) {
 }
 
 function updateSimulation() {
-    let wires = document.querySelectorAll(".set_wire");
-    for (let wire of wires) {
-        let from = document.querySelector("#" + wire.getAttribute("fromID"));
-        let to = document.querySelector("#" + wire.getAttribute("toID"));
-        if (from.getAttribute("Chip") != null) continue; // Only start from inputs
-        let fromEnabled = from.getAttribute("enabled") == "true";
-        if (fromEnabled) {
-            wire.style.stroke = enabledColor;
-            to.style.backgroundColor = enabledColor;
-            to.setAttribute("enabled", "true");
-        } else {
-            wire.style.stroke = disabledColor;
-            to.style.backgroundColor = disabledColor;
-            to.setAttribute("enabled", "false");
-        }
-        // NOT Gate
-        if (to.getAttribute("Chip") == "NOT") {
-            for (let child of to.parentElement.children) {
-                if (child.id.startsWith("output")) {
-                    child.setAttribute("enabled", !fromEnabled);
-                    child.style.backgroundColor = fromEnabled ? disabledColor : enabledColor;
-                    for (let wire of wires) {
-                        if (wire.getAttribute("fromID") == child.id) {
-                            wire.style.stroke = fromEnabled ? disabledColor : enabledColor;
-                            document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = fromEnabled ? disabledColor : enabledColor;
-                            document.querySelector("#" + wire.getAttribute("toID")).setAttribute("enabled", !fromEnabled);
-                        }
+    // Start from Board Inputs
+    let b_inputs = document.querySelectorAll(".board-input");
+    for (let inp of b_inputs) {
+        let curElem = inp;
+        let wire = document.getElementById(curElem.getAttribute("wire"));
+        let nextElem = document.getElementById(wire.getAttribute("toID"));
+        for (let i = 0; i < maxItrSim; i++) {
+            wire = document.getElementById(curElem.getAttribute("wire"));
+            nextElem = document.getElementById(wire.getAttribute("toID"));
+            console.log(nextElem);
+
+            if (curElem.getAttribute("Chip") == null) curElem = nextElem;
+            if (curElem.getAttribute("Chip") == "NOT") {
+                for (let child of nextElem.parentElement.children) {
+                    if (child.id.startsWith("output")) {
+                        curElem = child;
                     }
                 }
             }
-        }
-        // AND Gate
-        if (to.getAttribute("Chip") == "AND") {
-            let output;
-            let inputs = [];
-            for (let child of to.parentElement.children) {
-                if (child.id.startsWith("input")) {
-                    inputs.push(child.getAttribute("enabled"));
-                } if (child.id.startsWith("output")) output = child;
-            }
-            let andFulfilled = inputs[0] == "true" && inputs[1] == "true";
-            if (andFulfilled) {
-                output.setAttribute("enabled", true);
-                output.style.backgroundColor = enabledColor;
-                for (let wire of wires) {
-                    if (wire.getAttribute("fromID") == output.id) {
-                        wire.style.stroke = enabledColor;
-                        document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = enabledColor;
-                        document.querySelector("#" + wire.getAttribute("toID")).setAttribute("enabled", "true");
-                    }
-                }
-            } else {
-                output.setAttribute("enabled", false);
-                output.style.backgroundColor = disabledColor;
-                for (let wire of wires) {
-                    if (wire.getAttribute("fromID") == output.id) {
-                        wire.style.stroke = disabledColor;
-                        document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = disabledColor;
-                        document.querySelector("#" + wire.getAttribute("toID")).setAttribute("enabled", "false");
-                    }
-                }
-            }
+            if (nextElem.classList.contains("board-output")) break;
         }
     }
 }
