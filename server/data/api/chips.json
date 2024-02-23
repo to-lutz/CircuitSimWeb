@@ -11,7 +11,7 @@
     {
         "id": 1,
         "name": "AND",
-        "inputs": 1,
+        "inputs": 2,
         "outputs": 1,
         "type": "AND",
         "enabledByDefault": true,
