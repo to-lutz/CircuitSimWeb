@@ -17,6 +17,8 @@ function loadChipsToDom() {
         div.innerHTML = chip['name'];
         div.style.backgroundColor = chip['bgColor'];
         div.draggable = "true";
+        div.setAttribute("Inputs", chip['inputs']);
+        div.setAttribute("Outputs", chip['outputs']);
         div.ondragstart = (e) => {
             e.dataTransfer.setData("ID", e.target.id);
             e.dataTransfer.setData("Inputs", chip['inputs']);
