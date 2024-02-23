@@ -1,5 +1,6 @@
 let simMode = false;
 let wireMode = false;
+let settingWire = false;
 // Fetch basic chips from API
 let chips;
 async function loadChips() {
@@ -32,7 +33,25 @@ loadChips();
 
 function toggleInput(element) {
     if (!simMode) {
-        element.remove();
+        if (!wireMode) element.remove();
+        else {
+            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.addEventListener("click", (e) => {
+                if (settingWire) {
+                    let wire = document.querySelector("#wire");
+                    wire.setAttribute("points", wire.getAttribute("points") + " " + e.clientX + "," + e.clientY);
+                    wirePoint++;
+                }
+            });
+            document.body.appendChild(svg);
+            let line = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+            line.setAttribute("id", "wire");
+            line.setAttribute("points", element.getBoundingClientRect().left + "," + (element.getBoundingClientRect().width / 2, element.getBoundingClientRect().top + (element.getBoundingClientRect().height / 2)));
+            line.setAttribute("stroke", "black");
+            line.setAttribute("fill", "none");
+            svg.appendChild(line);
+            settingWire = true;
+        }
     } else {
         if (element.classList.contains("inputON")) {
             element.classList.remove("inputON");
