@@ -24,7 +24,7 @@ function loadChipsToDom() {
     for (let chip of chips) {
         let div = document.createElement("div");
         div.classList.add("chips-item");
-        div.id = "chip_" + chip['id'];
+        div.id = chip['name'] + "_chip_" + chip['id'];
         div.innerHTML = chip['name'];
         div.style.backgroundColor = chip['bgColor'];
         div.draggable = "true";
@@ -34,6 +34,7 @@ function loadChipsToDom() {
             e.dataTransfer.setData("ID", e.target.id);
             e.dataTransfer.setData("Inputs", chip['inputs']);
             e.dataTransfer.setData("Outputs", chip['outputs']);
+            e.dataTransfer.setData("Chip", chip['name']);
         }
         document.querySelector(".chips-wrapper").appendChild(div);
     }
@@ -161,6 +162,7 @@ function dropChip(e) {
     let id = e.dataTransfer.getData("ID");
     let inputs = e.dataTransfer.getData("Inputs");
     let outputs = e.dataTransfer.getData("Outputs");
+    let chiptype = e.dataTransfer.getData("Chip");
 
     let height = (10 + Math.max(inputs, outputs) * 30 + 10);
     let width = document.querySelector("#" + id).getBoundingClientRect().width;
@@ -187,6 +189,7 @@ function dropChip(e) {
             else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
             ielem.id = "input_" + curInputID;
             curInputID++;
+            ielem.setAttribute("Chip", "NOT");
             elem.appendChild(ielem);
         }
 
@@ -196,6 +199,7 @@ function dropChip(e) {
             else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
             oelem.id = "output_" + curOutputID;
             curOutputID++;
+            oelem.setAttribute("Chip", "NOT");
             elem.appendChild(oelem);
         }
     }
@@ -205,6 +209,7 @@ function dropChip(e) {
         e.dataTransfer.setData("Inputs", inputs);
         e.dataTransfer.setData("Outputs", outputs);
         e.dataTransfer.setData("MoveChip", true);
+        e.dataTransfer.setData("Chip", chiptype);
     }
 
     elem.addEventListener("click", (e) => connectWire(e.target));
@@ -220,12 +225,29 @@ function updateSimulation() {
     for (let wire of wires) {
         let from = document.querySelector("#" + wire.getAttribute("fromID"));
         let to = document.querySelector("#" + wire.getAttribute("toID"));
-        if (from.getAttribute("enabled") == "true") {
+        if (from.getAttribute("Chip") != null) continue; // Only start from inputs
+        let fromEnabled = from.getAttribute("enabled") == "true";
+        if (fromEnabled) {
             wire.style.stroke = enabledColor;
             to.style.backgroundColor = enabledColor;
         } else {
             wire.style.stroke = disabledColor;
             to.style.backgroundColor = disabledColor;
+        }
+        // NOT Gate
+        if (to.getAttribute("Chip") == "NOT") {
+            for (let child of to.parentElement.children) {
+                if (child.id.startsWith("output")) {
+                    child.setAttribute("enabled", !fromEnabled);
+                    child.style.backgroundColor = fromEnabled ? disabledColor : enabledColor;
+                    for (let wire of wires) {
+                        if (wire.getAttribute("fromID") == child.id) {
+                            wire.style.stroke = fromEnabled ? disabledColor : enabledColor;
+                            document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = fromEnabled ? disabledColor : enabledColor;
+                        }
+                    }
+                }
+            }
         }
     }
 }
