@@ -48,7 +48,9 @@ function toggleInput(element) {
 function connectWire(elem){
     let board = document.querySelector(".board");
     if (wireStartElem == null && wireMode) {
-        let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        let svg;
+        if (document.querySelector("svg") == null) svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        else svg = document.querySelector("svg");
         svg.addEventListener("click", (e) => {
             if (settingWire) {
                 let wire = document.querySelector("#wire");
