@@ -130,5 +130,11 @@ function dropChip(e) {
         elem.appendChild(oelem);
     }
 
+    elem.ondragstart = (e) => {
+        e.dataTransfer.setData("ID", e.target.id);
+        e.dataTransfer.setData("Inputs", inputs);
+        e.dataTransfer.setData("Outputs", outputs);
+    }
+
     document.querySelector(".board").appendChild(elem);
 }
