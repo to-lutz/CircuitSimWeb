@@ -161,7 +161,7 @@ function dropChip(e) {
 
     elem.id = id + +new Date();
     elem.style.position = "absolute";
-    elem.style.top = e.clientY + "px";
+    elem.style.top = (e.clientY - height/2) + "px";
     elem.style.left = e.clientX + "px";
     elem.style.height = height + "px";
 
