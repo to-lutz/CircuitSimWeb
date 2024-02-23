@@ -134,7 +134,11 @@ function dropChip(e) {
         e.dataTransfer.setData("ID", e.target.id);
         e.dataTransfer.setData("Inputs", inputs);
         e.dataTransfer.setData("Outputs", outputs);
+        e.dataTransfer.setData("MoveChip", true);
     }
 
     document.querySelector(".board").appendChild(elem);
+    if (e.dataTransfer.getData("MoveChip")) {
+        document.querySelector("#" + id).remove();
+    }
 }
