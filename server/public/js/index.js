@@ -3,6 +3,8 @@ let wireMode = false;
 let settingWire = false;
 let wireStartElem = null;
 let wireCount = 0;
+let curInputID = 0;
+let curOutputID = 0;
 // Fetch basic chips from API
 let chips;
 async function loadChips() {
@@ -93,7 +95,8 @@ document.querySelector(".board").addEventListener("click", (e) => {
     if (e.offsetX < 10 && !simMode && !wireMode) { // Left Side
         let div = document.createElement("div");
         div.classList.add("board-input");
-        div.id = document.querySelectorAll(".board-input").length;
+        div.id = curInputID;
+        curInputID++;
         div.style.left = (e.target.getBoundingClientRect().left - 12.5) + "px";
         div.style.top = (e.clientY - 15) + "px";
         div.style.position = "absolute";
@@ -103,7 +106,8 @@ document.querySelector(".board").addEventListener("click", (e) => {
     } else if (e.offsetX - e.target.getBoundingClientRect().width > -15 && !simMode && !wireMode) { // Right Side
         let div = document.createElement("div");
         div.classList.add("board-output");
-        div.id = document.querySelectorAll(".board-output").length;
+        div.id = curOutputID;
+        curOutputID++;
         div.style.left = (e.target.getBoundingClientRect().right - 15) + "px";
         div.style.top = (e.clientY - 15) + "px";
         div.style.position = "absolute";
@@ -169,6 +173,8 @@ function dropChip(e) {
         let ielem = input.cloneNode(true);
         if (inputs > outputs) ielem.style.top = (25 + 30*i) + "px";
         else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
+        ielem.id = curInputID;
+        curInputID++;
         elem.appendChild(ielem);
     }
 
@@ -176,6 +182,8 @@ function dropChip(e) {
         let oelem = output.cloneNode(true);
         if (outputs > inputs) oelem.style.top = (25 + 30*i) + "px";
         else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
+        oelem.id = curOutputID;
+        curOutputID++;
         elem.appendChild(oelem);
     }
 
