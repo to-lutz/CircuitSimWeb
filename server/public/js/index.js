@@ -16,12 +16,9 @@ function loadChipsToDom() {
         div.id = chip['id'];
         div.innerHTML = chip['name'];
         div.style.backgroundColor = chip['bgColor'];
+        div.draggable = "true";
         document.querySelector(".chips-wrapper").appendChild(div);
     }
-    $(".chips-item").draggable({
-        "scroll": false,
-        "containment": ".wrapper"
-    })
 }
 
 loadChips();
