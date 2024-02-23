@@ -170,23 +170,24 @@ function dropChip(e) {
     elem.style.top = (e.clientY - height/2) + "px";
     elem.style.left = e.clientX + "px";
     elem.style.height = height + "px";
+    if (!e.dataTransfer.getData("MoveChip")) {
+        for (let i = 0; i < inputs; i++) {
+            let ielem = input.cloneNode(true);
+            if (inputs > outputs) ielem.style.top = (25 + 30*i) + "px";
+            else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
+            ielem.id = "input_" + curInputID;
+            curInputID++;
+            elem.appendChild(ielem);
+        }
 
-    for (let i = 0; i < inputs; i++) {
-        let ielem = input.cloneNode(true);
-        if (inputs > outputs) ielem.style.top = (25 + 30*i) + "px";
-        else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
-        ielem.id = "input_" + curInputID;
-        curInputID++;
-        elem.appendChild(ielem);
-    }
-
-    for (let i = 0; i < outputs; i++) {
-        let oelem = output.cloneNode(true);
-        if (outputs > inputs) oelem.style.top = (25 + 30*i) + "px";
-        else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
-        oelem.id = "output_" + curOutputID;
-        curOutputID++;
-        elem.appendChild(oelem);
+        for (let i = 0; i < outputs; i++) {
+            let oelem = output.cloneNode(true);
+            if (outputs > inputs) oelem.style.top = (25 + 30*i) + "px";
+            else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
+            oelem.id = "output_" + curOutputID;
+            curOutputID++;
+            elem.appendChild(oelem);
+        }
     }
 
     elem.ondragstart = (e) => {
