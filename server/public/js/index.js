@@ -96,10 +96,16 @@ function dropChip(e) {
     let outputs = e.dataTransfer.getData("Outputs");
 
     let height = (10 + Math.max(inputs, outputs) * 30 + 10);
+    let width = document.querySelector("#" + id).getBoundingClientRect().width;
 
     let input = document.createElement("div");
     input.classList.add("chip-input");
     input.style.left = -12.5 + "px";
+
+    let output = document.createElement("div");
+    output.classList.add("chip-output");
+    console.log(width);
+    output.style.left = (width - 7.5) + "px";
 
     let elem = document.querySelector("#" + id).cloneNode(true);
 
@@ -113,6 +119,12 @@ function dropChip(e) {
         let ielem = input.cloneNode(true);
         ielem.style.top = (25 + 30*i) + "px";
         elem.appendChild(ielem);
+    }
+
+    for (let i = 0; i < outputs; i++) {
+        let oelem = output.cloneNode(true);
+        oelem.style.top = (25 + 30*i) + "px";
+        elem.appendChild(oelem);
     }
 
     document.querySelector(".board").appendChild(elem);
