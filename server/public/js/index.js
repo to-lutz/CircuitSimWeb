@@ -13,10 +13,11 @@ function loadChipsToDom() {
     for (let chip of chips) {
         let div = document.createElement("div");
         div.classList.add("chips-item");
-        div.id = chip['id'];
+        div.id = "chip_" + chip['id'];
         div.innerHTML = chip['name'];
         div.style.backgroundColor = chip['bgColor'];
         div.draggable = "true";
+        div.ondragstart = (e) => e.dataTransfer.setData("ID", e.target.id);
         document.querySelector(".chips-wrapper").appendChild(div);
     }
 }
@@ -80,3 +81,17 @@ document.querySelector(".wire-mode").addEventListener("click", (e) => {
         wireMode = false;
     }
 });
+
+function allowDropChip(e) {
+    e.preventDefault();
+}
+
+function dropChip(e) {
+    let id = e.dataTransfer.getData("ID");
+    let elem = document.querySelector("#" + id).cloneNode(true);
+    elem.id = id + +new Date();
+    elem.style.position = "absolute";
+    elem.style.top = e.clientY + "px";
+    elem.style.left = e.clientX + "px";
+    document.querySelector(".board").appendChild(elem);
+}
