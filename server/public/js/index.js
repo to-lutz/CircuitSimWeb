@@ -189,7 +189,7 @@ function dropChip(e) {
             else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
             ielem.id = "input_" + curInputID;
             curInputID++;
-            ielem.setAttribute("Chip", "NOT");
+            ielem.setAttribute("Chip", chiptype);
             elem.appendChild(ielem);
         }
 
@@ -199,7 +199,7 @@ function dropChip(e) {
             else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
             oelem.id = "output_" + curOutputID;
             curOutputID++;
-            oelem.setAttribute("Chip", "NOT");
+            oelem.setAttribute("Chip", chiptype);
             elem.appendChild(oelem);
         }
     }
@@ -230,9 +230,11 @@ function updateSimulation() {
         if (fromEnabled) {
             wire.style.stroke = enabledColor;
             to.style.backgroundColor = enabledColor;
+            to.setAttribute("enabled", "true");
         } else {
             wire.style.stroke = disabledColor;
             to.style.backgroundColor = disabledColor;
+            to.setAttribute("enabled", "false");
         }
         // NOT Gate
         if (to.getAttribute("Chip") == "NOT") {
@@ -244,7 +246,40 @@ function updateSimulation() {
                         if (wire.getAttribute("fromID") == child.id) {
                             wire.style.stroke = fromEnabled ? disabledColor : enabledColor;
                             document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = fromEnabled ? disabledColor : enabledColor;
+                            document.querySelector("#" + wire.getAttribute("toID")).setAttribute("enabled", !fromEnabled);
                         }
+                    }
+                }
+            }
+        }
+        // AND Gate
+        if (to.getAttribute("Chip") == "AND") {
+            let output;
+            let inputs = [];
+            for (let child of to.parentElement.children) {
+                if (child.id.startsWith("input")) {
+                    inputs.push(child.getAttribute("enabled"));
+                } if (child.id.startsWith("output")) output = child;
+            }
+            let andFulfilled = inputs[0] == "true" && inputs[1] == "true";
+            if (andFulfilled) {
+                output.setAttribute("enabled", true);
+                output.style.backgroundColor = enabledColor;
+                for (let wire of wires) {
+                    if (wire.getAttribute("fromID") == output.id) {
+                        wire.style.stroke = enabledColor;
+                        document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = enabledColor;
+                        document.querySelector("#" + wire.getAttribute("toID")).setAttribute("enabled", "true");
+                    }
+                }
+            } else {
+                output.setAttribute("enabled", false);
+                output.style.backgroundColor = disabledColor;
+                for (let wire of wires) {
+                    if (wire.getAttribute("fromID") == output.id) {
+                        wire.style.stroke = disabledColor;
+                        document.querySelector("#" + wire.getAttribute("toID")).style.backgroundColor = disabledColor;
+                        document.querySelector("#" + wire.getAttribute("toID")).setAttribute("enabled", "false");
                     }
                 }
             }
