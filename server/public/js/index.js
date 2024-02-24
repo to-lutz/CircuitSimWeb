@@ -235,7 +235,7 @@ function updateSimulation() {
         for (let i = 0; i < maxItrSim; i++) {
             wire = document.getElementById(curElem.getAttribute("wire"));
             nextElem = document.getElementById(wire.getAttribute("toID"));
-            console.log(nextElem);
+            let fromEnabled = curElem.getAttribute("enabled") == "true";
 
             if (curElem.getAttribute("Chip") == null) curElem = nextElem;
             if (curElem.getAttribute("Chip") == "NOT") {
@@ -245,6 +245,18 @@ function updateSimulation() {
                     }
                 }
             }
+
+            // Color wires & to
+            if (fromEnabled) {
+                wire.style.stroke = enabledColor;
+                nextElem.style.backgroundColor = enabledColor;
+                nextElem.setAttribute("enabled", "true");
+            } else {
+                wire.style.stroke = disabledColor;
+                nextElem.style.backgroundColor = disabledColor;
+                nextElem.setAttribute("enabled", "false");
+            }
+
             if (nextElem.classList.contains("board-output")) break;
         }
     }
