@@ -8,9 +8,8 @@ let curOutputID = 0;
 
 // Data for Simulation
 let maxItrSim = 10; // Iteration cap for the sim
-let inputs = [];
-// Input: {"id": "input_1", "isBoardOutput", "true", "chip_id": "1", "chip_type": "AND"}
-let outputs = [];
+let inputsArray = [];
+let outputsArray = [];
 
 const enabledColor = "#c91c10";
 const enabledSVG = "%23c91c10";
@@ -119,7 +118,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         let div = document.createElement("div");
         div.classList.add("board-input");
         div.id = "input_" + curInputID;
-        inputs.push({"id": "input_" + curInputID, "isBoardOutput": true, "chip_id": null, "chip_type": null});
+        inputsArray.push({"id": "input_" + curInputID, "isBoardOutput": true, "chip_id": null, "chip_type": null});
         curInputID++;
         div.style.left = (e.target.getBoundingClientRect().left - 12.5) + "px";
         div.style.top = (e.clientY - 15) + "px";
@@ -131,7 +130,7 @@ document.querySelector(".board").addEventListener("click", (e) => {
         let div = document.createElement("div");
         div.classList.add("board-output");
         div.id = "output_" + curOutputID;
-        outputs.push({"id": "output_" + curOutputID, "isBoardInput": true, "chip_id": null, "chip_type": null});
+        outputsArray.push({"id": "output_" + curOutputID, "isBoardInput": true, "chip_id": null, "chip_type": null});
         curOutputID++;
         div.style.left = (e.target.getBoundingClientRect().right - 15) + "px";
         div.style.top = (e.clientY - 15) + "px";
@@ -201,7 +200,7 @@ function dropChip(e) {
             if (inputs > outputs) ielem.style.top = (25 + 30*i) + "px";
             else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
             ielem.id = "input_" + curInputID;
-            inputs.push({"id": "input_" + curInputID, "isBoardOutput": false, "chip_id": elem.id, "chip_type": chiptype});
+            inputsArray.push({"id": "input_" + curInputID, "isBoardOutput": false, "chip_id": elem.id, "chip_type": chiptype});
             curInputID++;
             ielem.setAttribute("Chip", chiptype);
             elem.appendChild(ielem);
@@ -212,7 +211,7 @@ function dropChip(e) {
             if (outputs > inputs) oelem.style.top = (25 + 30*i) + "px";
             else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
             oelem.id = "output_" + curOutputID;
-            outputs.push({"id": "output_" + curOutputID, "isBoardInput": false, "chip_id": elem.id, "chip_type": chiptype});
+            outputsArray.push({"id": "output_" + curOutputID, "isBoardInput": false, "chip_id": elem.id, "chip_type": chiptype});
             curOutputID++;
             oelem.setAttribute("Chip", chiptype);
             elem.appendChild(oelem);
