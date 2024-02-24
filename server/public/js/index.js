@@ -10,6 +10,7 @@ let curOutputID = 0;
 let maxItrSim = 10; // Iteration cap for the sim
 let inputsArray = [];
 let outputsArray = [];
+let wiresArray = [];
 
 const enabledColor = "#c91c10";
 const enabledSVG = "%23c91c10";
@@ -99,6 +100,8 @@ function connectWire(elem){
         wire.setAttribute("fromID", wireStartElem.id);
         wire.setAttribute("toID", elem.id);
         wireCount++;
+
+        wiresArray.push({"id": wire.id, "in_id": wireStartElem.id, "out_id": elem.id});
 
         wireStartElem.setAttribute("wire", wire.id);
         elem.setAttribute("from_wire", wire.id);
