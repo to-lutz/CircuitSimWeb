@@ -194,7 +194,7 @@ function dropChip(e) {
             let ielem = input.cloneNode(true);
             if (inputs > outputs) ielem.style.top = (25 + 30*i) + "px";
             else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
-            ielem.id = "input_" + curInputID;
+            ielem.id = "output_" + curInputID;
             curInputID++;
             ielem.setAttribute("Chip", chiptype);
             elem.appendChild(ielem);
@@ -204,7 +204,7 @@ function dropChip(e) {
             let oelem = output.cloneNode(true);
             if (outputs > inputs) oelem.style.top = (25 + 30*i) + "px";
             else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
-            oelem.id = "output_" + curOutputID;
+            oelem.id = "input_" + curOutputID;
             curOutputID++;
             oelem.setAttribute("Chip", chiptype);
             elem.appendChild(oelem);
