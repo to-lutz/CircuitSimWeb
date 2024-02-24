@@ -238,6 +238,12 @@ function updateSimulation() {
             nextElem = document.getElementById(wire.getAttribute("toID"));
             let fromEnabled = curElem.getAttribute("enabled") == "true";
 
+            // Color wires & to
+            wire.style.stroke = fromEnabled ? enabledColor : disabledColor;
+            nextElem.style.backgroundColor = fromEnabled ? enabledColor : disabledColor;
+            nextElem.setAttribute("enabled", fromEnabled);
+
+            // Processing
             if (curElem.getAttribute("Chip") == null) curElem = nextElem;
             if (curElem.getAttribute("Chip") == "NOT") {
                 for (let child of nextElem.parentElement.children) {
@@ -248,11 +254,26 @@ function updateSimulation() {
                     }
                 }
             }
-
-            // Color wires & to
-            wire.style.stroke = fromEnabled ? enabledColor : disabledColor;
-            nextElem.style.backgroundColor = fromEnabled ? enabledColor : disabledColor;
-            nextElem.setAttribute("enabled", fromEnabled);
+            if (curElem.getAttribute("Chip") == "AND" && curElem.classList.contains("chip-input")) {
+                let children = nextElem.parentElement.children;
+                let inputs = [];
+                let output;
+                for (let child of children) {
+                    if (child.id.startsWith("output")) output = child;
+                    if (child.id.startsWith("input")) {
+                        inputs.push(child);
+                    }
+                }
+                if (inputs[0].getAttribute("enabled") == "true" && inputs[1].getAttribute("enabled") == "true") {
+                    output.setAttribute("enabled", true);
+                    output.style.backgroundColor = enabledColor;
+                    curElem = output;
+                } else {
+                    output.setAttribute("enabled", false);
+                    output.style.backgroundColor = disabledColor;
+                    curElem = output;
+                }
+            }
 
             if (nextElem.classList.contains("board-output")) break;
         }
