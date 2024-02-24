@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const data = require('../../data/api/chips.json')
+const data = require('../../data/api/chips.json');
 
 /* GET chips json. */
 router.get('/', function(req, res, next) {
