@@ -241,21 +241,17 @@ function updateSimulation() {
             if (curElem.getAttribute("Chip") == "NOT") {
                 for (let child of nextElem.parentElement.children) {
                     if (child.id.startsWith("output")) {
+                        child.setAttribute("enabled", !fromEnabled);
+                        child.style.backgroundColor = !fromEnabled ? enabledColor : disabledColor;
                         curElem = child;
                     }
                 }
             }
 
             // Color wires & to
-            if (fromEnabled) {
-                wire.style.stroke = enabledColor;
-                nextElem.style.backgroundColor = enabledColor;
-                nextElem.setAttribute("enabled", "true");
-            } else {
-                wire.style.stroke = disabledColor;
-                nextElem.style.backgroundColor = disabledColor;
-                nextElem.setAttribute("enabled", "false");
-            }
+            wire.style.stroke = fromEnabled ? enabledColor : disabledColor;
+            nextElem.style.backgroundColor = fromEnabled ? enabledColor : disabledColor;
+            nextElem.setAttribute("enabled", fromEnabled);
 
             if (nextElem.classList.contains("board-output")) break;
         }
