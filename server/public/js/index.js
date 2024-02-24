@@ -238,7 +238,17 @@ function dropChip(e) {
 }
 
 function updateSimulation() {
-    // Start from Board Inputs
-    let b_inputs = document.querySelectorAll(".board-input");
-    // TODO Api Call:
+    // API Call
+    let data = new FormData();
+    data.append("inputs", JSON.stringify(inputsArray));
+    data.append("outputs", JSON.stringify(outputsArray));
+    data.append("wires", JSON.stringify(wiresArray));
+    fetch("https://httpbin.org/post").then((res) => res.json()).then((data) => console.log(data));
+    fetch("/api/simulate", {
+        method: "POST",
+        body: data,
+    }).then((res) => res.json())
+    .then((data) => {
+        console.log(JSON.stringify(data));
+    })
 }
