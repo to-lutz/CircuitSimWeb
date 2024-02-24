@@ -201,6 +201,7 @@ function dropChip(e) {
             if (inputs > outputs) ielem.style.top = (25 + 30*i) + "px";
             else ielem.style.top = ((height/2 - (inputs-1)*15) + 30*i) + "px";
             ielem.id = "input_" + curInputID;
+            inputs.push({"id": "input_" + curInputID, "isBoardOutput": false, "chip_id": elem.id, "chip_type": chiptype});
             curInputID++;
             ielem.setAttribute("Chip", chiptype);
             elem.appendChild(ielem);
@@ -211,6 +212,7 @@ function dropChip(e) {
             if (outputs > inputs) oelem.style.top = (25 + 30*i) + "px";
             else oelem.style.top = ((height/2 - (outputs-1)*15) + 30*i) + "px";
             oelem.id = "output_" + curOutputID;
+            outputs.push({"id": "output_" + curOutputID, "isBoardInput": false, "chip_id": elem.id, "chip_type": chiptype});
             curOutputID++;
             oelem.setAttribute("Chip", chiptype);
             elem.appendChild(oelem);
