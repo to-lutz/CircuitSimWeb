@@ -98,6 +98,7 @@ function connectWire(elem){
         wireCount++;
 
         wireStartElem.setAttribute("wire", wire.id);
+        elem.setAttribute("from_wire", wire.id);
 
         let boundingBox = elem.getBoundingClientRect();
         let xVal = (boundingBox.left + boundingBox.width / 2) - board.getBoundingClientRect().left;
@@ -275,7 +276,16 @@ function updateSimulation() {
                 }
             }
 
-            if (nextElem.classList.contains("board-output")) break;
+            if (nextElem.classList.contains("board-output")) {
+                if (document.getElementById(nextElem.getAttribute("from_wire")).style.stroke == "rgb(201, 28, 16)") {
+                    nextElem.setAttribute("enabled", true);
+                    nextElem.style.backgroundColor = enabledColor;
+                } else {
+                    nextElem.setAttribute("enabled", false);
+                    nextElem.style.backgroundColor = disabledColor;
+                }
+                break;
+            }
         }
     }
 }
