@@ -253,7 +253,7 @@ function updateSimulation() {
             nextElem.style.backgroundColor = fromEnabled ? enabledColor : disabledColor;
             nextElem.setAttribute("enabled", fromEnabled);
 
-            if (nextElem.classList.contains("board-output")) break;
+            if (nextElem.classList.contains("board-output")) continue;
         }
     }
 }
